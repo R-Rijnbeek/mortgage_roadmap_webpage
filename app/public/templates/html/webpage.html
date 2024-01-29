@@ -8,6 +8,20 @@
 
 {% block content %}
 
-    hola
+    <div class="input-group mb-3">
+        <span class="input-group-text">Dept:</span>
+        <input id="dept" type="number" value="100000" step="10000" class="form-control" placeholder="Dept" aria-label="Dept">
+        <span class="input-group-text">Cuotas:</span>
+        <select class="form-select" id="cuotas">
+        </select>
+        <span class="input-group-text">APR:</span> 
+        <input id="APR" type="number" value="4.5" step="0.1" class="form-control" placeholder="APR" aria-label="APR">  
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text">Mortgage type:</span>
+        <select id="mortgage_type" class="form-select">
+        </select> 
+        <button id="calculate" type="button" class="btn btn-primary">CALCULATE!</button>
+    </div>
 
 {% endblock %}
