@@ -1,23 +1,43 @@
 window.addEventListener('load', function() {
-    selectList = document.getElementById("cuotas");
+    
+    cuotasSelectList = document.getElementById("cuotas");
+    mortgage_SelectList = document.getElementById("mortgage_type");
 
-    for (var i = 2; i < 251; i++) {
-        var option = document.createElement("option");
-        option.value = i;
-        option.text = i;
-        if (i == 50) {
-            option.selected = true
-        }
-        
-        selectList.appendChild(option);
-
-        
-    }
+    cuota_options = createCuotaOptions()
+    createSelectOptions(cuotasSelectList, cuota_options, 50 );
+    createSelectOptions(mortgage_SelectList, ["contant Pay Mortgage", "constant Chargoff Mortgage"], "contant Pay Mortgage" )
 
     button = document.getElementById("calculate");
     AddEventListenerOnButton(button, MortgageCalculation)
 })
 
+function createSelectOptions(selectList, option_list, selected_value) {
+
+    let i = 0;
+
+    while (i < option_list.length) {
+        var option = document.createElement("option");
+        value = option_list[i]
+        option.value = value;
+        option.text = value;
+        if (value == selected_value) {
+            option.selected = true
+        }
+        selectList.appendChild(option);
+        i++;
+    }
+
+}
+
+function createCuotaOptions() {
+    var Start = 2;
+    var End = 250;
+    var arr = [];
+    for (var i = Start; i <= End; i++) {
+        arr.push(i);
+    }
+    return arr
+}
 
 function AddEventListenerOnButton(sliderDOM, method) {
     sliderDOM.addEventListener("click", () => {
