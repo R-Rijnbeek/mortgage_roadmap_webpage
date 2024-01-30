@@ -77,8 +77,11 @@ function CreateDataTableByResponse(response) {
     document.getElementById("Total_Interest_Pay").innerHTML = commaSeparateNumber(response.total_interest_pay)
     document.getElementById("Total_Pay").innerHTML = commaSeparateNumber(response.total_pay)
 
+    if ( $.fn.dataTable.isDataTable('#DataTable') ) {
+        $('#DataTable').DataTable().destroy();
+        $('#DataTable').empty();
+    }
     
-
     new DataTable('#DataTable', {
         data: response.roadmap,
         columns: [
