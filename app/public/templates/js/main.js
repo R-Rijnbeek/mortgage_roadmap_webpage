@@ -75,10 +75,11 @@ function CreateDataTableByResponse(response) {
     new DataTable('#DataTable', {
         data: response.roadmap,
         columns: [
+            { "data" : "cuota", "title" : "Cuota" },
             { "data" : "dept", "title" : "Dept" },
             { "data" : "charge_off", "title" : "Charge Off" },
             { "data" : "interest_pay", "title" : "Interest Pay" },
-            { "data" : "cumulative_interest_pay", "title" : "Cumulative Interest Pay" },
+            { "data" : "cumulative_interest_pay", "title" : "Total Interest Pay" },
             { "data" : "topay", "title" : "To Pay" },
         ],
         columnDefs : [
@@ -86,10 +87,10 @@ function CreateDataTableByResponse(response) {
                 "render": function (data, type, row) {
                      return commaSeparateNumber(data);
                 },
-                "targets":'_all' 
+                "targets":[1,2,3,4,5]
             },
         ],
-        order: [[0, 'desc']],
+        order: [[0, 'asc']],
         pageLength: -1,
         searching: false, 
         paging: false,
