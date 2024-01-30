@@ -1,42 +1,32 @@
+const FRONT_SELECTED_CUOTA = {{FRONT_SELECTED_CUOTA}}
+const CUOTA_OPTIONS = {{CUOTA_OPTIONS}}
+const MORTGAGE_OPTIONS = {{MORTGAGE_OPTIONS}}
+const FRONT_SELECTED_MORTGAGE = {{FRONT_SELECTED_MORTGAGE}}
+
 window.addEventListener('load', function() {
     
     cuotasSelectList = document.getElementById("cuotas");
     mortgage_SelectList = document.getElementById("mortgage_type");
 
-    cuota_options = createCuotaOptions()
-    createSelectOptions(cuotasSelectList, cuota_options, 50 );
-    createSelectOptions(mortgage_SelectList, ["contant Pay Mortgage", "constant Chargoff Mortgage"], "constant Chargoff Mortgage" )
+    createSelectOptions(cuotasSelectList, CUOTA_OPTIONS, FRONT_SELECTED_CUOTA );
+    createSelectOptions(mortgage_SelectList, MORTGAGE_OPTIONS, FRONT_SELECTED_MORTGAGE )
 
     button = document.getElementById("calculate");
     AddEventListenerOnButton(button, MortgageCalculation)
 })
 
 function createSelectOptions(selectList, option_list, selected_value) {
-
-    let i = 0;
-
-    while (i < option_list.length) {
+    console.log(option_list)
+    for (var key in option_list) {
         var option = document.createElement("option");
-        value = option_list[i]
+        var value = option_list[key]
         option.value = value;
         option.text = value;
         if (value == selected_value) {
             option.selected = true
         }
         selectList.appendChild(option);
-        i++;
     }
-
-}
-
-function createCuotaOptions() {
-    var Start = 2;
-    var End = 250;
-    var arr = [];
-    for (var i = Start; i <= End; i++) {
-        arr.push(i);
-    }
-    return arr
 }
 
 function AddEventListenerOnButton(buttonDOM, method) {
@@ -108,12 +98,9 @@ function CreateDataTableByResponse(response) {
         buttons: ['copyHtml5', 'excelHtml5', 'pdfHtml5', 'csvHtml5']
 
     });
-
 }
-
 
 function commaSeparateNumber(val) {
     var number = DataTable.render.number(',', '.', 2, '€ ').display(val);
-
     return number;
 }

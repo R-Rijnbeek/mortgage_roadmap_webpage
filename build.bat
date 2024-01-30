@@ -31,6 +31,7 @@ echo    }
 ( 
     echo {
     echo    "css.validate": false
+    echo    "python.defaultInterpreterPath": ".\\env\\python.exe",
     echo }
 ) > .\.vscode\settings.json
 

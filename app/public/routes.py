@@ -1,27 +1,17 @@
 # =============== IMPORTS ==============
 
-from flask import render_template, jsonify, abort, request
+from flask import render_template, jsonify, abort, current_app, request
+import json
 
 from basic_decorators import argument_check
-from mortgage_roadmap import Mortgage_Constant_ChargeOff, Mortgage_Constant_Pay
 
 from app.shared import LOG
 
-from . import web
+from app.utils import returnsJS
+
+from . import web, mortgage_CalculationProcess
 
 # =============== DEFINE ENTRYPOINTS ==============
-
-def mortgage_CalculationProcess(DEPT, CUOTAS, APR, MORTGAGE_TYPE):
-
-    if MORTGAGE_TYPE == "contant Pay Mortgage" : 
-        mortgage_instance = Mortgage_Constant_Pay(DEPT, CUOTAS, APR)
-    elif MORTGAGE_TYPE == "constant Chargoff Mortgage" :
-        mortgage_instance = Mortgage_Constant_ChargeOff(DEPT, CUOTAS, APR)
-    else:
-        raise Exception("Wrong Mortgage type")
-    
-    return mortgage_instance.inform
-
 
 @web.route("/", methods=["GET"])
 @argument_check()
@@ -49,6 +39,25 @@ def process():
     except Exception as exc:
         LOG.error(f"ERROR: {exc}")
         abort(400)
+
+@web.route("/js/main.js", methods=["GET"])
+@returnsJS
+def get_js():
+    FRONT_MIN_CUOTAS = current_app.config["FRONT_MIN_CUOTAS"]
+    FRONT_MAX_CUOTAS = current_app.config["FRONT_MAX_CUOTAS"]
+    CUOTA_OPTIONS = json.dumps({str(i): i for i in  range(FRONT_MIN_CUOTAS,FRONT_MAX_CUOTAS)})
+    FRONT_SELECTED_CUOTA = current_app.config["FRONT_SELECTED_CUOTA"]
+    FRONT_MORTGAGE_TYPES = current_app.config["FRONT_MORTGATE_TYPES"]
+    MORTGAGE_OPTIONS = json.dumps({str(i):FRONT_MORTGAGE_TYPES[i] for i in range(0, len(FRONT_MORTGAGE_TYPES))})
+    FRONT_SELECTED_MORTGAGE = json.dumps(current_app.config["FRONT_SELECTED_MORTGAGE"])
+
+    return render_template("/js/main.js", 
+                           CUOTA_OPTIONS=CUOTA_OPTIONS, 
+                           FRONT_SELECTED_CUOTA=FRONT_SELECTED_CUOTA, 
+                           MORTGAGE_OPTIONS=MORTGAGE_OPTIONS, 
+                           FRONT_SELECTED_MORTGAGE=FRONT_SELECTED_MORTGAGE
+                           )
+
 
 # =============== EXECUTE TEST CODE ===============
 
