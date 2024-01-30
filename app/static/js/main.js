@@ -39,8 +39,8 @@ function createCuotaOptions() {
     return arr
 }
 
-function AddEventListenerOnButton(sliderDOM, method) {
-    sliderDOM.addEventListener("click", () => {
+function AddEventListenerOnButton(buttonDOM, method) {
+    buttonDOM.addEventListener("click", () => {
         method();
     })
 }
@@ -50,6 +50,21 @@ function MortgageCalculation() {
     let cuotas = $('#cuotas').val();
     let APR = $('#APR').val();
     let mortgage_type = $('#mortgage_type').val();
-    dict = {"dept":dept,"cuotas":cuotas,"APR":APR,"mortgage_type":mortgage_type}
-    console.log(dict)
+    $.ajax(
+        {
+        url:"/mortgage_calculation",
+        type:"POST",
+        data: { "dept": dept,
+                "cuotas": cuotas,
+                "APR": APR,
+                "mortgage_type": mortgage_type
+        },
+        success: function(response){
+            console.log("INFO: Succesfull calculation" + JSON.stringify(response))
+            console.log(response)
+        },
+        error: function(error){
+            console.log("ERROR: Unespected error => " + error.status)
+        },
+    });
 }
