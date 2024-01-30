@@ -1,4 +1,3 @@
-
 const FRONT_SELECTED_CUOTA = {{FRONT_SELECTED_CUOTA}}
 const CUOTA_OPTIONS = {{CUOTA_OPTIONS}}
 const MORTGAGE_OPTIONS = {{MORTGAGE_OPTIONS}}
@@ -28,15 +27,6 @@ function createSelectOptions(selectList, option_list, selected_value) {
         }
         selectList.appendChild(option);
     }
-}
-
-
-function createCuotaOptions(Start, End) {
-    var arr = {};
-    for (var i = Start; i <= End; i++) {
-        arr[i.toString()]=i;
-    }
-    return arr
 }
 
 function AddEventListenerOnButton(buttonDOM, method) {
@@ -108,12 +98,9 @@ function CreateDataTableByResponse(response) {
         buttons: ['copyHtml5', 'excelHtml5', 'pdfHtml5', 'csvHtml5']
 
     });
-
 }
-
 
 function commaSeparateNumber(val) {
     var number = DataTable.render.number(',', '.', 2, '€ ').display(val);
-
     return number;
 }
