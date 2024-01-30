@@ -1,14 +1,12 @@
 # =============== IMPORTS ==============
 
-from flask import render_template, jsonify, abort, current_app, request
 import json
+from flask import render_template, jsonify, abort, current_app, request
 
 from basic_decorators import argument_check
 
 from app.shared import LOG
-
 from app.utils import returnsJS
-
 from . import web, mortgage_CalculationProcess
 
 # =============== DEFINE ENTRYPOINTS ==============
