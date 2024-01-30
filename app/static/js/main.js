@@ -61,10 +61,47 @@ function MortgageCalculation() {
         },
         success: function(response){
             console.log("INFO: Succesfull calculation" + JSON.stringify(response))
-            console.log(response)
+            CreateDataTableByResponse(response)
         },
         error: function(error){
             console.log("ERROR: Unespected error => " + error.status)
         },
     });
+}
+
+function CreateDataTableByResponse(response) {
+
+    if ( $.fn.dataTable.isDataTable('#DataTable') ) {
+        $('#DataTable').DataTable().destroy();
+        $('#DataTable').empty();
+    }
+
+    new DataTable('#DataTable', {
+        data: response.roadmap,
+        columns: [
+            { "data" : "dept", "title" : "dept" },
+            { "data" : "charge_off", "title" : "charge_off" },
+            { "data" : "interest_pay", "title" : "interest_pay" },
+            { "data" : "cumulative_interest_pay", "title" : "cumulative_interest_pay" },
+            { "data" : "topay", "title" : "topay" },
+        ],
+        columnDefs : [
+            {
+                "render": function (data, type, row) {
+                     return commaSeparateNumber(data);
+                },
+                "targets":'_all' 
+            },
+        ],
+        order: [[0, 'desc']],
+        pageLength: 100,
+        lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ]
+    });
+}
+
+
+function commaSeparateNumber(val) {
+    var number = DataTable.render.number(',', '.', 2, '€ ').display(val);
+
+    return number;
 }
