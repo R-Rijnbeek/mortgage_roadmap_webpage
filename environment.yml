@@ -11,4 +11,4 @@ dependencies:
     - gunicorn
     - pandas
     - openpyxl
-    - mortgage-roadmap
+    - mortgage-roadmap==0.1.3
