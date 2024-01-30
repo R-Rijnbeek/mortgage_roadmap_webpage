@@ -5,7 +5,7 @@ window.addEventListener('load', function() {
 
     cuota_options = createCuotaOptions()
     createSelectOptions(cuotasSelectList, cuota_options, 50 );
-    createSelectOptions(mortgage_SelectList, ["contant Pay Mortgage", "constant Chargoff Mortgage"], "contant Pay Mortgage" )
+    createSelectOptions(mortgage_SelectList, ["contant Pay Mortgage", "constant Chargoff Mortgage"], "constant Chargoff Mortgage" )
 
     button = document.getElementById("calculate");
     AddEventListenerOnButton(button, MortgageCalculation)
@@ -71,19 +71,22 @@ function MortgageCalculation() {
 
 function CreateDataTableByResponse(response) {
 
-    if ( $.fn.dataTable.isDataTable('#DataTable') ) {
-        $('#DataTable').DataTable().destroy();
-        $('#DataTable').empty();
-    }
+    document.getElementById("resume").style.display = null
+
+    document.getElementById("Total_Dept").innerHTML = commaSeparateNumber(response.initial_dept)
+    document.getElementById("Total_Interest_Pay").innerHTML = commaSeparateNumber(response.total_interest_pay)
+    document.getElementById("Total_Pay").innerHTML = commaSeparateNumber(response.total_pay)
+
+    
 
     new DataTable('#DataTable', {
         data: response.roadmap,
         columns: [
-            { "data" : "dept", "title" : "dept" },
-            { "data" : "charge_off", "title" : "charge_off" },
-            { "data" : "interest_pay", "title" : "interest_pay" },
-            { "data" : "cumulative_interest_pay", "title" : "cumulative_interest_pay" },
-            { "data" : "topay", "title" : "topay" },
+            { "data" : "dept", "title" : "Dept" },
+            { "data" : "charge_off", "title" : "Charge Off" },
+            { "data" : "interest_pay", "title" : "Interest Pay" },
+            { "data" : "cumulative_interest_pay", "title" : "Cumulative Interest Pay" },
+            { "data" : "topay", "title" : "To Pay" },
         ],
         columnDefs : [
             {
@@ -94,9 +97,15 @@ function CreateDataTableByResponse(response) {
             },
         ],
         order: [[0, 'desc']],
-        pageLength: 100,
-        lengthMenu: [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ]
+        pageLength: -1,
+        searching: false, 
+        paging: false,
+        info: false,
+        dom: 'Bfrtip',
+        buttons: ['copyHtml5', 'excelHtml5', 'pdfHtml5', 'csvHtml5']
+
     });
+
 }
 
 
